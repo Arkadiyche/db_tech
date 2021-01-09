@@ -60,7 +60,6 @@ func (r *UserRepository) SelectByNickname(nickname string) (u *models.User, erro
 }
 
 func (r *UserRepository) Update(user *models.User) (error *models.Error) {
-	fmt.Println(user)
 	query := "UPDATE users SET  "
 	if user.About != "" {
 		query += fmt.Sprintf(" about = '%s', ", user.About)
@@ -82,8 +81,8 @@ func (r *UserRepository) Update(user *models.User) (error *models.Error) {
 			&user.Email,
 			&user.Fullname,
 			&user.Nickname)
-	fmt.Println(query)
-	fmt.Println(err)
+	//fmt.Println(query)
+	//fmt.Println(err)
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			return &models.Error{Message: models.NotExist.Error()}

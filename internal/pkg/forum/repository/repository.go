@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"fmt"
 	"github.com/Arkadiyche/bd_techpark/internal/pkg/models"
 	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx"
@@ -25,7 +24,7 @@ func (r *ForumRepository) Insert(forum models.Forum) (f *models.Forum, error *mo
 		forum.Posts,
 		forum.Threads).Scan(&forum.User)
 	if err != nil {
-		fmt.Println("111", err.(pgx.PgError).Code)
+		//fmt.Println("111", err.(pgx.PgError).Code)
 		switch err.(pgx.PgError).Code {
 		case pgerrcode.ForeignKeyViolation:
 			return nil, &models.Error{Message: models.NotExist.Error()}
@@ -100,7 +99,7 @@ func (r *ForumRepository) GetForumUsers(slug string, desc bool, since string, li
 			rows, err = r.db.Query(query, &slug)
 		}
 	}
-	fmt.Println(query)
+	//fmt.Println(query)
 	if err != nil {
 		return nil,  &models.Error{Message: err.Error()}
 	}

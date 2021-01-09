@@ -2,7 +2,6 @@ package delivery
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/Arkadiyche/bd_techpark/internal/pkg/forum"
 	"github.com/Arkadiyche/bd_techpark/internal/pkg/models"
 	"github.com/gorilla/mux"
@@ -15,15 +14,15 @@ type ForumHandler struct {
 
 func (fh *ForumHandler) Create(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	fmt.Println("forum Create")
+	//fmt.Println("forum Create")
 	forum := models.Forum{}
 	if err := json.NewDecoder(r.Body).Decode(&forum); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	fmt.Println(forum)
+	//fmt.Println(forum)
 	f, err := fh.UseCase.Create(forum)
-	fmt.Println(err)
+	//fmt.Println(err)
 	if err != nil {
 		switch err.Message {
 		case models.NotExist.Error():
@@ -59,7 +58,7 @@ func (fh *ForumHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 func (fh *ForumHandler) Details(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	fmt.Println("forum Details")
+	//fmt.Println("forum Details")
 	vars := mux.Vars(r)
 	slug := vars["slug"]
 	f, err := fh.UseCase.Details(slug)
@@ -84,7 +83,7 @@ func (fh *ForumHandler) Details(w http.ResponseWriter, r *http.Request) {
 
 func (fh *ForumHandler) Users(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	fmt.Println("forum Users")
+	//fmt.Println("forum Users")
 	vars := mux.Vars(r)
 	slug := vars["slug"]
 	users, err := fh.UseCase.Users(slug, *r.URL)

@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"fmt"
 	"github.com/Arkadiyche/bd_techpark/internal/pkg/forum"
 	"github.com/Arkadiyche/bd_techpark/internal/pkg/models"
 	"github.com/Arkadiyche/bd_techpark/internal/pkg/post"
@@ -43,10 +42,10 @@ func (uc *PostsUseCase) Create(SlugOrId string, posts *models.Posts) *models.Err
 			return &models.Error{Message: models.NotExist.Error()}
 		}
 	}
-	fmt.Println(thread, "1111111111")
+	//fmt.Println(thread, "1111111111")
 	forum, err := uc.ForumRepository.GetForum(thread.Forum)
 	if err != nil {
-		return &models.Error{Message: models.NotExist.Error()}
+		return &models.Error{Message: models.Exist.Error()}
 	}
 	thread.Forum = forum.Slug
 	err = uc.PostRepository.Insert(*thread, posts)
@@ -85,6 +84,7 @@ func (uc *PostsUseCase) Get(id string, url url.URL) (postFull *models.PostFull, 
 		}
 		postF.Forum = f
 	}
+	//fmt.Println(queryURL, "user", utils.Contains(queryURL["related"], "user"), "thread", utils.Contains(queryURL["related"], "thread"), "forum", utils.Contains(queryURL["related"], "forum"))
 	return &postF, nil
 }
 
@@ -108,9 +108,13 @@ func (uc *PostsUseCase) GetThreadPosts(SlugOrId string, url url.URL) (ps *models
 		}
 		id = thread.Id
 	} else {
-		id = int32(i)
+		thread, err1 := uc.ThreadRepository.GetById(int32(i))
+		if err1 != nil {
+			return nil, &models.Error{Message: models.NotExist.Error()}
+		}
+		id = thread.Id
 	}
-	fmt.Println("Arkadiy1", url,"flat", flat)
+	//fmt.Println("Arkadiy1", url,"flat", flat)
 	posts, err1 := uc.PostRepository.GetThreadPosts(id, desc, since, limit, flat)
 	return posts, err1
 }

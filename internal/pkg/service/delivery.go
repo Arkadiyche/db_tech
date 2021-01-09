@@ -18,6 +18,7 @@ func NewServiceHandler(db *pgx.ConnPool) ServiceHandler {
 }
 
 func (sh *ServiceHandler) Status(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	status := models.Status{}
 	err := sh.db.QueryRow("SELECT " +
 		"(SELECT COUNT(*) FROM users), (SELECT COUNT(*) FROM forums), (SELECT COUNT(*) FROM threads), (SELECT COUNT(*) FROM posts)").Scan(
@@ -44,6 +45,7 @@ func (sh *ServiceHandler) Status(w http.ResponseWriter, r *http.Request) {
 }
 
 func (sh *ServiceHandler) Clear(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	sh.db.Exec("TRUNCATE  votes, posts, forum_users, threads, forums, users CASCADE")
 	w.WriteHeader(200)
 }

@@ -13,6 +13,7 @@ type PostHandler struct {
 }
 
 func (ph *PostHandler) Create(w http.ResponseWriter, r *http.Request) {
+	//fmt.Println("post Create")
 	w.Header().Set("Content-Type", "application/json")
 	posts := models.Posts{}
 	vars := mux.Vars(r)
@@ -22,6 +23,7 @@ func (ph *PostHandler) Create(w http.ResponseWriter, r *http.Request) {
 	}
 	SlugOrId := vars["slug_or_id"]
 	err := ph.UseCase.Create(SlugOrId, &posts)
+	//fmt.Println("AAA", err)
 	if err != nil {
 		res, err1 := json.Marshal(err)
 		if err1 != nil {
@@ -51,6 +53,7 @@ func (ph *PostHandler) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func (ph *PostHandler) Get(w http.ResponseWriter, r *http.Request) {
+	//fmt.Println("post Get")
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	id := vars["id"]
@@ -61,7 +64,7 @@ func (ph *PostHandler) Get(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err1.Error(), http.StatusBadRequest)
 			return
 		}
-		w.WriteHeader(409)
+		w.WriteHeader(404)
 		w.Write(res)
 	} else {
 		res, err1 := json.Marshal(post)
@@ -69,12 +72,13 @@ func (ph *PostHandler) Get(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err1.Error(), http.StatusBadRequest)
 			return
 		}
-		w.WriteHeader(201)
+		w.WriteHeader(200)
 		w.Write(res)
 	}
 }
 
 func (ph *PostHandler) Update(w http.ResponseWriter, r *http.Request) {
+	//fmt.Println("post Update")
 	w.Header().Set("Content-Type", "application/json")
 	post := models.Post{}
 	vars := mux.Vars(r)

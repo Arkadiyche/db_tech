@@ -2,7 +2,6 @@ package delivery
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/Arkadiyche/bd_techpark/internal/pkg/models"
 	"github.com/Arkadiyche/bd_techpark/internal/pkg/thread"
 	"github.com/gorilla/mux"
@@ -16,7 +15,7 @@ type ThreadHandler struct {
 func (th *ThreadHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
-	fmt.Println("thread Create")
+	//fmt.Println("thread Create")
 	thread := models.Thread{}
 	vars := mux.Vars(r)
 	if err := json.NewDecoder(r.Body).Decode(&thread); err != nil {
@@ -25,7 +24,7 @@ func (th *ThreadHandler) Create(w http.ResponseWriter, r *http.Request) {
 	}
 	thread.Forum = vars["slug"]
 	t, err := th.UseCase.Create(&thread)
-	fmt.Println(err)
+	//fmt.Println(err)
 	if err != nil {
 		switch err.Message {
 		case models.NotExist.Error():

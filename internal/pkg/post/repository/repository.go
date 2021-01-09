@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/Arkadiyche/bd_techpark/internal/pkg/models"
 	"github.com/go-openapi/strfmt"
+	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx"
 	"time"
 )
@@ -49,41 +50,66 @@ func (r *PostRepository) Insert(thread models.Thread, posts *models.Posts) *mode
 		}
 	}
 	if queryRow.Err() != nil {
-		return &models.Error{Message: models.Exist.Error()}
+		//fmt.Println(queryRow.Err().(pgx.PgError).Code)
+		switch queryRow.Err().(pgx.PgError).Code {
+		case pgerrcode.ForeignKeyViolation:
+			return &models.Error{Message: models.NotExist.Error()}
+		default:
+			return &models.Error{Message: models.Exist.Error()}
+		}
 	}
 	return nil
 }
 
 func (r *PostRepository) Get(id int) (post *models.Post, err *models.Error)  {
 	p := models.Post{}
-	error1 := r.db.QueryRow("SELECT author, created, forum_slug, id, message, parent, thread FROM posts WHERE id = $1", id).
+	error1 := r.db.QueryRow("SELECT author, created, forum_slug, id, message, parent, thread, edited FROM posts WHERE id = $1", id).
 		Scan(&p.Author,
 			&p.Created,
 			&p.Forum,
 			&p.Id,
 			&p.Message,
 			&p.Parent,
-			&p.Thread)
+			&p.Thread,
+			&p.IsEdited)
 	if error1 != nil {
 		return nil, &models.Error{Message: models.NotExist.Error()}
 	}
-	//fmt.Println(post)
+	//fmt.Println(p)
 	return &p, nil
 }
 
 func (r *PostRepository) Update(id int, post *models.Post) (error *models.Error)  {
-	err := r.db.QueryRow("UPDATE posts SET message = $1, edited = true WHERE id = $2 RETURNING author, created, forum_slug, id, message, parent, thread",
-		post.Message, id).
+	var Message string
+	e := r.db.QueryRow("SELECT message from posts WHERE id = $1", id).Scan(&Message)
+	if e != nil {
+		return &models.Error{Message: e.Error()}
+	}
+	if Message == post.Message {
+		post.Message = ""
+	}
+	queryReturn := "author, created, forum_slug, id, message, parent, thread, edited"
+	query := "SELECT "
+	if post.Message != "" {
+		query = fmt.Sprintf("UPDATE posts SET message = '%s', edited = true WHERE id = $1 RETURNING ", post.Message)
+		query += queryReturn
+	} else {
+		query += queryReturn
+		query += " FROM posts WHERE id = $1"
+	}
+	err := r.db.QueryRow(query ,id).
 		Scan(&post.Author,
 		&post.Created,
 		&post.Forum,
 		&post.Id,
 		&post.Message,
 		&post.Parent,
-		&post.Thread)
+		&post.Thread,
+		&post.IsEdited)
 	if err != nil {
 		return &models.Error{Message: err.Error()}
 	}
+	//fmt.Println(post)
 	return nil
 }
 
@@ -139,7 +165,7 @@ func (r *PostRepository) GetThreadPosts(threadID int32, desc bool, since string,
 					"posts.message, posts.parent, posts.edited, posts.created " +
 					"FROM posts WHERE posts.thread = $1 ORDER BY posts.path[1] DESC, posts.path DESC LIMIT $2")
 			} else {
-				fmt.Println("AAAAAAAAAAAAAAAAA")
+				//fmt.Println("AAAAAAAAAAAAAAAAA")
 				query = fmt.Sprintf("SELECT posts.id, posts.author, posts.forum_slug, posts.thread, " +
 					"posts.message, posts.parent, posts.edited, posts.created " +
 					"FROM posts WHERE posts.thread = $1 ORDER BY posts.path[1] ASC, posts.path ASC LIMIT $2")
@@ -168,7 +194,7 @@ func (r *PostRepository) GetThreadPosts(threadID int32, desc bool, since string,
 		}
 		rows, err = r.db.Query(query, threadID, limit)
 	}
-	fmt.Println(sort, "abcdefgh", query)
+	//fmt.Println(sort, "abcdefgh", query)
 
 	if err != nil {
 		return &posts, &models.Error{Message: err.Error()}

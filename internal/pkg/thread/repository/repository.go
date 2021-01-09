@@ -21,7 +21,7 @@ func NewThreadRepository(db *pgx.ConnPool) *ThreadRepository {
 func (r *ThreadRepository) Insert(thread *models.Thread) (t *models.Thread, e *models.Error) {
 	var err error
 	def := time.Time{}
-	fmt.Println(def, thread.Created)
+	//fmt.Println(def, thread.Created)
 	if thread.Created != def {
 		err = r.db.QueryRow("INSERT INTO threads (author, created, forum_slug, message, slug, title) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
 			&thread.Author,
@@ -30,7 +30,7 @@ func (r *ThreadRepository) Insert(thread *models.Thread) (t *models.Thread, e *m
 			&thread.Message,
 			&thread.Slug,
 			&thread.Title).Scan(&thread.Id)
-		fmt.Println(1)
+		//fmt.Println(1)
 	} else {
 		err = r.db.QueryRow	("INSERT INTO threads (author, forum_slug, message, slug, title) VALUES ($1, $2, $3, $4, $5) RETURNING id",
 			&thread.Author,
@@ -39,10 +39,10 @@ func (r *ThreadRepository) Insert(thread *models.Thread) (t *models.Thread, e *m
 			&thread.Slug,
 			&thread.Title).Scan(&thread.Id)
 		thread.Created = time.Now()
-		fmt.Println(2)
+		//fmt.Println(2)
 	}
 	if err != nil {
-		fmt.Println("111", err)
+		//fmt.Println("111", err)
 		switch err.(pgx.PgError).Code {
 		case pgerrcode.ForeignKeyViolation:
 			return nil, &models.Error{Message: models.NotExist.Error()}
@@ -75,8 +75,30 @@ func (r *ThreadRepository) GetById(id int32) (t *models.Thread, error *models.Er
 
 func (r *ThreadRepository) Update(slugOrId string, id int32, thread models.Thread) (th *models.Thread, err *models.Error)  {
 	t := models.Thread{}
-	error := r.db.QueryRow("UPDATE threads SET title = $1, message = $2 WHERE slug = $3 OR id = $4 RETURNING author, created, forum_slug, id, message, slug, title, votes",
-		thread.Title, thread.Message, slugOrId, id).
+	query := ""
+	if thread.Title == "" && thread.Message == "" {
+		error := r.db.QueryRow("SELECT author, created, forum_slug, id, message, slug, title, votes FROM threads WHERE slug = $1 OR id = $2", slugOrId, id).
+			Scan(&t.Author,
+				&t.Created,
+				&t.Forum,
+				&t.Id,
+				&t.Message,
+				&t.Slug,
+				&t.Title,
+				&t.Votes)
+		if error != nil {
+			return nil, &models.Error{Message: error.Error()}
+		}
+		return &t, nil
+	} else if thread.Message != "" && thread.Title != "" {
+		query += fmt.Sprintf("title = '%s', message = '%s'", thread.Title, thread.Message)
+	} else if thread.Title != "" {
+		query += fmt.Sprintf("title = '%s'", thread.Title)
+	} else {
+		query += fmt.Sprintf("message = '%s'", thread.Message)
+	}
+	//fmt.Println(query)
+	error := r.db.QueryRow("UPDATE threads SET " + query +" WHERE slug = $1 OR id = $2 RETURNING author, created, forum_slug, id, message, slug, title, votes", slugOrId, id).
 		Scan(&t.Author,
 		&t.Created,
 		&t.Forum,
@@ -92,7 +114,7 @@ func (r *ThreadRepository) Update(slugOrId string, id int32, thread models.Threa
 }
 
 func (r *ThreadRepository) 	GetThreads(slug string, desc bool, since string, limit int) (ts *models.Threads, e *models.Error)  {
-	fmt.Println(desc, since, limit)
+	//fmt.Println(desc, since, limit)
 	threads := models.Threads{}
 	query := "SELECT author, created, forum_slug, id, message, slug, title, votes FROM threads WHERE forum_slug = $1"
 	rows := &pgx.Rows{}
@@ -128,12 +150,12 @@ func (r *ThreadRepository) 	GetThreads(slug string, desc bool, since string, lim
 			rows, err = r.db.Query(query, &slug)
 		}
 	}
-	fmt.Println(err)
+	//fmt.Println(err)
 	if err != nil {
 		return nil,  &models.Error{Message: err.Error()}
 	}
 	for rows.Next() {
-		fmt.Println("1")
+		//fmt.Println("1")
 		thread := models.Thread{}
 
 		err := rows.Scan(&thread.Author,

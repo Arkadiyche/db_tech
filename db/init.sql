@@ -10,7 +10,6 @@ CREATE UNLOGGED TABLE users
 
 CREATE UNIQUE INDEX ON users (nickname, email);
 CREATE UNIQUE INDEX ON users (nickname, email, about, fullname);
--- CREATE UNIQUE INDEX ON users (nickname ASC); ALREADY EXISTS
 CREATE UNIQUE INDEX ON users (nickname DESC);
 
 CREATE UNLOGGED TABLE forums
@@ -49,7 +48,6 @@ CREATE UNLOGGED TABLE threads
 CREATE INDEX ON threads(slug, author);
 CREATE INDEX ON threads(forum_slug, created ASC);
 CREATE INDEX ON threads(forum_slug, created DESC);
--- CREATE INDEX ON threads(id); ALREADY EXISTS
 CREATE INDEX ON threads(slug, id);
 CREATE INDEX ON threads(id, forum_slug);
 CREATE INDEX ON threads(slug, id, forum_slug);
@@ -87,7 +85,7 @@ CREATE UNIQUE INDEX ON votes(thread_id, nickname);
 
 CREATE INDEX ON threads (slug, id);
 
-CREATE FUNCTION update_path() RETURNS TRIGGER AS
+CREATE FUNCTION update_path_check_parent() RETURNS TRIGGER AS
 $$
 DECLARE
     temp INT ARRAY;
@@ -119,10 +117,10 @@ CREATE TRIGGER update_posts_path
     BEFORE INSERT
     ON posts
     FOR EACH ROW
-EXECUTE PROCEDURE update_path();
+EXECUTE PROCEDURE update_path_check_parent();
 
--- VOTE VALUE UPDATE
-CREATE FUNCTION vote_count_upd() RETURNS TRIGGER AS
+
+CREATE FUNCTION vote_update() RETURNS TRIGGER AS
 $$
 BEGIN
     IF (old.vote != new.vote) THEN
@@ -134,13 +132,13 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER vote_count_upd
+CREATE TRIGGER vote_upd
     AFTER UPDATE
     ON votes
     FOR EACH ROW
-EXECUTE PROCEDURE vote_count_upd();
+EXECUTE PROCEDURE vote_update();
 
-CREATE FUNCTION  vote_count_insert() RETURNS TRIGGER AS
+CREATE FUNCTION  vote_count() RETURNS TRIGGER AS
 $$
 BEGIN
     UPDATE threads
@@ -150,15 +148,14 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER vote_count_insert
+CREATE TRIGGER vote_count
     AFTER INSERT
     ON votes
     FOR EACH ROW
-EXECUTE PROCEDURE vote_count_insert();
+EXECUTE PROCEDURE vote_count();
 
 
--- UPDATE FORUM_USER TABLE AFTER INSERTS
-CREATE FUNCTION  insert_forum_user_from_threads_or_psoots() RETURNS TRIGGER AS
+CREATE FUNCTION  insert_forum_users() RETURNS TRIGGER AS
 $$
 BEGIN
     INSERT INTO forum_users
@@ -169,17 +166,17 @@ END;
 $$
     LANGUAGE plpgsql;
 
-CREATE TRIGGER update_forum_user_from_threads
+CREATE TRIGGER update_forum_users_thread
     AFTER INSERT
     ON threads
     FOR EACH ROW
-EXECUTE PROCEDURE insert_forum_user_from_threads_or_psoots();
+EXECUTE PROCEDURE insert_forum_users();
 
-CREATE TRIGGER update_forum_user_from_posts
+CREATE TRIGGER update_forum_users_posts
     AFTER INSERT
     ON posts
     FOR EACH ROW
-EXECUTE PROCEDURE insert_forum_user_from_threads_or_psoots();
+EXECUTE PROCEDURE insert_forum_users();
 
 
 CREATE FUNCTION  update_forum_counter_posts() RETURNS TRIGGER AS
@@ -194,7 +191,7 @@ END;
 $$
     LANGUAGE plpgsql;
 
-CREATE TRIGGER update_forum_counters_after_post_insert
+CREATE TRIGGER update_forum_counters_posts
     AFTER INSERT
     ON posts
     FOR EACH ROW
@@ -212,7 +209,7 @@ END;
 $$
     LANGUAGE plpgsql;
 
-CREATE TRIGGER update_forum_counters_after_thread_insert
+CREATE TRIGGER update_forum_counters_threads
     AFTER INSERT
     ON threads
     FOR EACH ROW

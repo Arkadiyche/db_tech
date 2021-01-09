@@ -37,6 +37,10 @@ func (u *ForumUseCase) Details(slug string) (f *models.Forum, error *models.Erro
 
 func (u *ForumUseCase) Users(slug string, url url.URL) (us *models.Users, error *models.Error) {
 	desc, since, limit, _:= utils.FormQueryFromURL(url)
+	_, error = u.ForumRepository.GetForum(slug)
+	if error != nil {
+		return nil, &models.Error{Message: models.NotExist.Error()}
+	}
 	us, error = u.ForumRepository.GetForumUsers(slug, desc, since, limit)
 	return us, error
 }

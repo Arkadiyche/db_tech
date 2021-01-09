@@ -1,8 +1,10 @@
 package utils
 
+import "strings"
+
 func Contains(a []string, x string) bool {
 	for _, n := range a {
-		if x == n {
+		if strings.Contains(n, x) {
 			return true
 		}
 	}
