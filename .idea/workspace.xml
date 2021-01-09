@@ -1,7 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1466916d-82a6-4f94-bf8d-d60439a1aebe" name="Default Changelist" comment="" />
+    <list default="true" id="1466916d-82a6-4f94-bf8d-d60439a1aebe" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/forum/repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/forum/repository/repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/forum/usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/forum/usecase/usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/models/status.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/post/delivery/handlrer.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/post/repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/post/repository/repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/post/usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/post/usecase/usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/service/delivery.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/thread/delivery/handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/thread/repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/thread/repository/repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/thread/usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/thread/usecase/usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/user/delivery/handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/user/repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/user/repository/repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/user/usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/user/usecase/usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/utils/contains.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pkg/utils/query.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/check/check.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/apiserver/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/apiserver/run.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/apiserver.toml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/apiserver.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/apiserver/apiserver.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/apiserver/apiserver.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/apiserver/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/apiserver/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pkg/models/errors.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/errors.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pkg/models/forum.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/forum.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pkg/models/post.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/post.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pkg/models/thread.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/thread.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pkg/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pkg/store/config.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pkg/store/store.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,6 +56,17 @@
     </option>
   </component>
   <component name="GOROOT" url="file:///snap/go/6745" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
@@ -31,7 +83,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/db_tech" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -52,6 +104,18 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

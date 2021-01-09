@@ -1,9 +1,15 @@
 package models
 
 type Forum struct {
-	Posts   int64 `json:"posts"`
 	Slug    string `json:"slug"`
-	Threads int32 `json:"threads"`
 	Title   string `json:"title"`
 	User    string `json:"user"`
+	Posts   int64 `json:"posts"`
+	Threads int32 `json:"threads"`
+}
+
+type Query struct {
+	Limit string
+	Since string
+	Desc string
 }

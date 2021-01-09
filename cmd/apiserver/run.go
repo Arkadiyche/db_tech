@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
+	"github.com/Arkadiyche/bd_techpark/internal/app/apiserver"
 	"github.com/BurntSushi/toml"
-	"githun.com/Arkadiyche/bd_techpark/internal/app/apiserver"
 	"log"
 )
 

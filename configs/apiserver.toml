@@ -1,5 +1,5 @@
-bind_addr = ":8000"
+bind_addr = ":5000"
 log_level = "debug"
 
 [store]
-database_url = "root:password@/kino_park"
+database_url = "root:password@/forum"
