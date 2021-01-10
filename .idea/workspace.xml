@@ -3,20 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1466916d-82a6-4f94-bf8d-d60439a1aebe" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db/init.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/forum/delivery/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/forum/delivery/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/forum/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/forum/repository/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/forum/usecase/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/forum/usecase/usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/post/delivery/handlrer.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/post/delivery/handlrer.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/pkg/post/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/post/repository/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/post/usecase/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/post/usecase/usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/service/delivery.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/service/delivery.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/thread/delivery/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/thread/delivery/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/thread/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/thread/repository/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/user/delivery/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/user/delivery/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/user/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/user/repository/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/utils/contains.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/utils/contains.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +45,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/go/src/github.com/mailcourses/technopark-dbms-forum/tests" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />

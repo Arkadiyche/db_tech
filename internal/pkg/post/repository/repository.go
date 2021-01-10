@@ -3,10 +3,8 @@ package repository
 import (
 	"fmt"
 	"github.com/Arkadiyche/bd_techpark/internal/pkg/models"
-	"github.com/go-openapi/strfmt"
 	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx"
-	"time"
 )
 
 type PostRepository struct {
@@ -20,9 +18,7 @@ func NewPostRepository(db *pgx.ConnPool) *PostRepository {
 }
 
 func (r *PostRepository) Insert(thread models.Thread, posts *models.Posts) *models.Error  {
-	query := "INSERT INTO posts (author, forum_slug, message, parent, thread, created) VALUES "
-	nowTime := time.Now()
-	now := strfmt.DateTime(nowTime)
+	query := "INSERT INTO posts (author, forum_slug, message, parent, thread) VALUES "
 	if len(*posts) == 0 {
 		return nil
 	}
@@ -32,10 +28,9 @@ func (r *PostRepository) Insert(thread models.Thread, posts *models.Posts) *mode
 		}
 		(*posts)[i].Forum = thread.Forum
 		(*posts)[i].Thread = thread.Id
-		(*posts)[i].Created = nowTime
-		query += fmt.Sprintf("('%s', '%s', '%s', %d, %d, '%s') ", (*posts)[i].Author, (*posts)[i].Forum, (*posts)[i].Message, (*posts)[i].Parent, (*posts)[i].Thread, now)
+		query += fmt.Sprintf("('%s', '%s', '%s', %d, %d) ", (*posts)[i].Author, (*posts)[i].Forum, (*posts)[i].Message, (*posts)[i].Parent, (*posts)[i].Thread)
 	}
-	query += "RETURNING id"
+	query += "RETURNING id, created"
 	queryRow, err := r.db.Query(query)
 	if err != nil {
 		return &models.Error{Message: err.Error()}
@@ -43,7 +38,7 @@ func (r *PostRepository) Insert(thread models.Thread, posts *models.Posts) *mode
 	defer queryRow.Close()
 	for i, _ := range *posts {
 		if queryRow.Next() {
-			err := queryRow.Scan(&(*posts)[i].Id)
+			err := queryRow.Scan(&(*posts)[i].Id, &(*posts)[i].Created)
 			if err != nil {
 				return &models.Error{Message: err.Error()}
 			}
